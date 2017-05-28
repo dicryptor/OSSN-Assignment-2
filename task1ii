@@ -1,0 +1,16 @@
+Script started on Fri 19 May 2017 09:44:59 PM
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m modprove[K[Kbe -D ppdev
+insmod /lib/modules/4.4.0-53-generic/kernel/drivers/parport/parport.ko 
+insmod /lib/modules/4.4.0-53-generic/kernel/drivers/char/ppdev.ko 
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m 
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m modprobe -D ppdev[K[K[K[Ksmouse
+insmod /lib/modules/4.4.0-53-generic/kernel/drivers/input/mouse/psmouse.ko 
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m 
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m modprobe -D psmouse[K[K[K[K[K[K[K[K[K[K-V
+kmod version 22
+-XZ -ZLIB -EXPERIMENTAL
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m 
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m exit
+exit
+
+Script done on Fri 19 May 2017 09:45:26 PM

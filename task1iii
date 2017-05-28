@@ -1,0 +1,8 @@
+Script started on Fri 19 May 2017 09:45:32 PM
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m 
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m lsmod | tail -n +2 | wc -l
+62
+]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m [K]0;dicryptor@dicryptor-VirtualBox ~[01;32mdicryptor@dicryptor-VirtualBox[00m [01;34m~ $[00m exit
+exit
+
+Script done on Fri 19 May 2017 09:45:51 PM
