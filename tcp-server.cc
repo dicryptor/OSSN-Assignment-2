@@ -1,17 +1,27 @@
 #include <arpa/inet.h>
-
 #include <netdb.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <iterator>
 
-
-#define MAX_MSG 100
+#define MAX_MSG 255
 #define LINE_ARRAY_SIZE (MAX_MSG+1)
 
 using namespace std;
+
+struct destinations {
+  string name;
+  int adultPrice;
+  int childPrice;
+
+
+};
 
 int main()
 {
@@ -20,7 +30,45 @@ int main()
   socklen_t clientAddressLength;
   struct sockaddr_in clientAddress, serverAddress;
   char line[LINE_ARRAY_SIZE];
+  char *p;
+  string wmsg = 
+  "Welcome to Tour Booking Server. We await to serve you\n"
+  "Type [Destination] [Quantity of adult tickets]:  eg. HongKong 2\n";
+  const char * welcomeMsg = wmsg.c_str ();
+  int wmsglen = strlen(welcomeMsg);
 
+  string mydest;
+  int adultQty;
+  int childQty;
+  int adultTtl;
+  int childTtl;
+
+  vector<destinations> dest(6);
+  dest[0].name = "Malaysia";
+  dest[0].adultPrice = 100;
+  dest[0].childPrice = 60;
+
+  dest[1].name = "Bali";
+  dest[1].adultPrice = 400;
+  dest[1].childPrice = 220;
+
+  dest[2].name = "Perth";
+  dest[2].adultPrice = 1100;
+  dest[2].childPrice = 850;
+
+  dest[3].name = "HongKong";
+  dest[3].adultPrice = 800;
+  dest[3].childPrice = 650;
+
+  dest[4].name = "Switzerland";
+  dest[4].adultPrice = 2800;
+  dest[4].childPrice = 2200;
+
+  dest[5].name = "Japan";
+  dest[5].adultPrice = 2500;
+  dest[5].childPrice = 2000;
+
+  // cout << welcomeMsg << wmsglen;
   cout << "Enter port number to listen on (between 1500 and 65000): ";
   cin >> listenPort;
 
@@ -88,6 +136,9 @@ int main()
     // for example, is Least Significant Byte first).
     cout << ":" << ntohs(clientAddress.sin_port) << "\n";
 
+    if (send(connectSocket, welcomeMsg, wmsglen + 1, 0) < 0)
+      cerr << "Error: cannot send welcome message";
+
     // Read lines from socket, using recv(), storing them in the line
     // array.  If no messages are currently available, recv() blocks
     // until one arrives.
@@ -97,9 +148,33 @@ int main()
     while (recv(connectSocket, line, MAX_MSG, 0) > 0) {
       cout << "  --  " << line << "\n";
 
-      // Convert line to upper case.
-      for (i = 0; line[i] != '\0'; i++)
-        line[i] = toupper(line[i]);
+      istringstream stream (line);
+      stream >> mydest >> adultQty >> childQty;
+      // cout << mydest << endl;
+      // cout << adultQty << endl;
+      // cout << childQty << endl;
+
+      for(int count = 0; count < dest.size(); count++)
+      {
+        if (dest[count].name == mydest) {
+          cout << "Destination name: " << dest[count].name << endl;
+          cout << "Adult Price: " << dest[count].adultPrice * adultQty << endl;
+          cout << "Child Price: " << dest[count].childPrice * childQty << endl;
+          adultTtl = dest[count].adultPrice * adultQty;
+          childTtl = dest[count].childPrice * childQty;
+          ostringstream oss;
+          oss << adultTtl;
+          strcpy(line, "Your trip to ");
+          strcat(line, mydest.c_str());
+          strcat(line, " will cost you ");
+          strcat(line, oss.str().c_str());
+          break;
+        }
+        else
+        {
+          strcpy(line, "We currently do not serve that destination. Thank you and try again.");
+        }
+      }  
 
       // Send converted line back to client.
       if (send(connectSocket, line, strlen(line) + 1, 0) < 0)

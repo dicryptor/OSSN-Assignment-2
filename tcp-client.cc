@@ -5,7 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 
-#define MAX_LINE 100
+#define MAX_LINE 255
 #define LINE_ARRAY_SIZE (MAX_LINE+1)
 
 using namespace std;
@@ -60,16 +60,29 @@ int main()
     exit(1);
   }
 
-  cout << "\nEnter some lines, and the server will modify them and\n";
-  cout << "send them back.  When you are done, enter a line with\n";
-  cout << "just a dot, and nothing else.\n";
-  cout << "If a line is more than " << MAX_LINE << " characters, then\n";
-  cout << "only the first " << MAX_LINE << " characters will be used.\n\n";
+  // cout << "\nEnter some lines, and the server will modify them and\n";
+  // cout << "send them back.  When you are done, enter a line with\n";
+  // cout << "just a dot, and nothing else.\n";
+  // cout << "If a line is more than " << MAX_LINE << " characters, then\n";
+  // cout << "only the first " << MAX_LINE << " characters will be used.\n\n";
+
+// Zero out the buffer.
+  memset(buf, 0x0, LINE_ARRAY_SIZE);
+
+  // Read the modified line back from the server.
+  if (recv(socketDescriptor, buf, MAX_LINE, 0) < 0) {
+    cerr << "didn't get response from server?";
+    close(socketDescriptor);
+    exit(1);
+  }
+
+  cout << buf << "\n";
+
 
   // Prompt the user for input, then read in the input, up to MAX_LINE
   // charactars, and then dispose of the rest of the line, including
   // the newline character.
-  cout << "Input: ";
+  cout << "Send query: ";
   cin.get(buf, MAX_LINE, '\n');
   while (cin.get(c) && c != '\n') 
     ; //Loop does nothing except consume the spare bytes
@@ -96,12 +109,12 @@ int main()
       exit(1);
     }
 
-    cout << "Modified: " << buf << "\n";
+    cout << "Reply from server: " << buf << "\n";
 
     // Prompt the user for input, then read in the input, up to MAX_LINE
     // charactars, and then dispose of the rest of the line, including
     // the newline character.  As above.
-    cout << "Input: ";
+    cout << "Send query: ";
     cin.get(buf, MAX_LINE, '\n');
     while (cin.get(c) && c != '\n')
       ; //Chomp chomp chomp
