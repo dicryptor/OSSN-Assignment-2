@@ -42,6 +42,7 @@ int main()
   int childQty;
   int adultTtl;
   int childTtl;
+  int total;
 
   vector<destinations> dest(6);
   dest[0].name = "Malaysia";
@@ -162,12 +163,17 @@ int main()
           cout << "Child Price: " << dest[count].childPrice * childQty << endl;
           adultTtl = dest[count].adultPrice * adultQty;
           childTtl = dest[count].childPrice * childQty;
+          if (childTtl > 9999)
+            childTtl = 0;
+          total = adultTtl + childTtl;
+
           ostringstream oss;
-          oss << adultTtl;
+          oss << total;
           strcpy(line, "Your trip to ");
           strcat(line, mydest.c_str());
           strcat(line, " will cost you ");
           strcat(line, oss.str().c_str());
+
           break;
         }
         else
