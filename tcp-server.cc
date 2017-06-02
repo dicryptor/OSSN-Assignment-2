@@ -163,7 +163,7 @@ int main()
           cout << "Child Price: " << dest[count].childPrice * childQty << endl;
           adultTtl = dest[count].adultPrice * adultQty;
           childTtl = dest[count].childPrice * childQty;
-          if (childTtl > 9999)
+          if (childTtl > 9999 && !(childTtl <= 0))
             childTtl = 0;
           total = adultTtl + childTtl;
 
